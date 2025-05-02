@@ -52,7 +52,7 @@ void Grille_desallouer(Grille* g) {
 void Grille_vider(Grille* g) {
     for (int i = 0; i < g->n; i++) {
         for (int j = 0; j < g->m; j++) {
-            g->cases[i][j] = RIEN;
+            g->cases[i][j] = VIDE;
         }
     }
 }
@@ -69,7 +69,7 @@ void Grille_redessiner(const Grille* g) {
     for (int i = 0; i < g->n; i++) {
         for (int j = 0; j < g->m; j++) {
             switch (g->cases[i][j]) {
-                case RIEN:
+                case VIDE:
                     printf("\33[42m  ");  // carré vide (vert)
                     break;
                 case MUR:

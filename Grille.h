@@ -6,7 +6,7 @@
 #define MAX_M 100
 
 typedef enum {
-    RIEN,   /*case vide*/
+    VIDE,   /*case vide*/
     MUR,    
     PION,   /*joueur*/
     PIEGE   
@@ -25,7 +25,7 @@ Grille* Grille_initialiser(int n, int m);
 /*désalloue la grille et son contenu*/
 void Grille_desallouer(Grille* g);
 
-/*rempli la grille d'element RIEN*/
+/*rempli la grille d'element VIDE*/
 void Grille_vider(Grille* g);
 
 /*dessine à l’écran ce qui est codé dans le tableau de la Grille*/
