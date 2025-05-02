@@ -2,4 +2,4 @@
 
 \33[41m change la couleur du fond en rouge, suivi d'un caractère vide qui va se colorier en rouge pour faire un carrée, \33[0m reset les attribut du terminal
 
- 
+2.2 getch renvoie ERR à l’absence de pression sur une touche pendant une itération du jeu
