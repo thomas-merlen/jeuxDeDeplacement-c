@@ -16,7 +16,7 @@ typedef enum {
 typedef struct {
     int n; /*lignes*/
     int m; /*colonnes*/
-    ElementGrille cases[MAX_N][MAX_M];
+    ElementGrille** cases;
 } Grille;
 
 /*initialise la grille*/
