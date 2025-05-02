@@ -19,4 +19,19 @@ typedef struct {
     ElementGrille cases[MAX_N][MAX_M];
 } Grille;
 
+/*initialise la grille*/
+Grille* Grille_initialiser(int n, int m);
+
+/*désalloue la grille et son contenu*/
+void Grille_desallouer(Grille* g);
+
+/*rempli la grille d'element RIEN*/
+void Grille_vider(Grille* g);
+
+/*dessine à l’écran ce qui est codé dans le tableau de la Grille*/
+void Grille_redessiner(const Grille* g);
+
+/*placer un element sur la grille*/
+void Grille_placer_element(Grille* g, int x, int y, ElementGrille e);
+
 #endif
