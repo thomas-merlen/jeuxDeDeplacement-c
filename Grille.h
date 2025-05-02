@@ -14,9 +14,9 @@ typedef enum {
 
 /*grille du jeu*/
 typedef struct {
-    int n; // Nombre de lignes
-    int m; // Nombre de colonnes
-    ElementGrille cases[MAX_N][MAX_M]; // Grille de jeu
+    int n; /*lignes*/
+    int m; /*colonnes*/
+    ElementGrille cases[MAX_N][MAX_M];
 } Grille;
 
 #endif
