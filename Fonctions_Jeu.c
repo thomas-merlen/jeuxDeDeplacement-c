@@ -4,11 +4,11 @@
 #include "Fonctions_Jeu.h"
 #include "Grille.h"
 
-void afficher_couleur(enum evenement couleur, int compteur) {
+void afficher_couleur(enum evenement couleur, int compteur){
     printf("\33[2J"); /* Efface tout l'écran */
     printf("\33[H");  /* Deplace le curseur en position (0,0) */ 
     
-    switch (couleur) {
+    switch (couleur){
         case RIEN:
             printf("%s", "\33[42m  ");  /* Affiche un carré vert (VIDE) */
             break;      
@@ -34,13 +34,13 @@ void afficher_couleur(enum evenement couleur, int compteur) {
     printf("\33[1E");      
 }
 
-void Jeu_Partie_A(int option) {
+void Jeu_Partie_A(int option){
     enum evenement res;
     int ch, ch_dern = -1, test_touche, compteur;
     
     /* ===== TEST DE LA GRILLE ===== */
     Grille* grille_test = Grille_initialiser(5, 5);
-    if (grille_test == NULL) {
+    if (grille_test == NULL){
         printf("Erreur: impossible d'initialiser la grille\n");
         return;
     }
@@ -71,27 +71,27 @@ void Jeu_Partie_A(int option) {
     ch_dern = -2;
     compteur = 0;
     
-    do {
+    do{
         compteur++;
         ch = getch();
 
-        if (ch_dern == -2) {
+        if (ch_dern == -2){
             afficher_couleur(ROUGE, compteur);
             printf("Pour jouer: utiliser les flèches (ESC pour Sortir)\33[1E\33[1E");
             fflush(stdout);  
             ch_dern = -1; 
         }
 
-        if (ch != -1) {
+        if (ch != -1){
             if (ch != ch_dern) compteur = 1;
             ch_dern = ch;
         }
             
-        if ((ch != -1) || ((ch == -1) && (option == 2))) {
+        if ((ch != -1) || ((ch == -1) && (option == 2))){
             if (option == 1) test_touche = ch;
             else test_touche = ch_dern;
                 
-            switch(test_touche) {  
+            switch(test_touche){  
                 case KEY_UP:
                     printf("Up Arrow\33[1E");          
                     res = ROUGE;
@@ -117,7 +117,7 @@ void Jeu_Partie_A(int option) {
                     break;
             }
           
-            if (res != ECHAP) {
+            if (res != ECHAP){
                 afficher_couleur(res, compteur);
                 printf("Pour changer la couleur du carré: utiliser les flèches (ESC pour Sortir)\33[1E\33[1E");
                 fflush(stdout);
@@ -128,7 +128,7 @@ void Jeu_Partie_A(int option) {
     printf("\n\nAu revoir !\n");        
     printf("\33[1EAppuyez sur une touche pour sortir\33[1E\n");     
     
-    do {
+    do{
         ch = getch();
     } while(ch == -1);
     
