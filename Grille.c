@@ -2,9 +2,9 @@
 #include <stdlib.h>  
 #include "Grille.h"
 
-Grille* Grille_initialiser(int n, int m) {
+Grille* Grille_initialiser(int n, int m){
     Grille* g = malloc(sizeof(Grille));
-    if (g == NULL) {
+    if (g == NULL){
         return NULL;  // Échec de l'allocation de mémoire
     }
 
@@ -13,17 +13,17 @@ Grille* Grille_initialiser(int n, int m) {
 
     // Allocation mémoire pour les lignes
     g->cases = malloc(n * sizeof(ElementGrille*));
-    if (g->cases == NULL) {
+    if (g->cases == NULL){
         free(g);  // Nettoyage en cas d'échec
         return NULL;
     }
 
     // Allocation mémoire pour chaque colonne
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++){
         g->cases[i] = malloc(m * sizeof(ElementGrille));
-        if (g->cases[i] == NULL) {
+        if (g->cases[i] == NULL){
             // Nettoyage en cas d'échec
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j < i; j++){
                 free(g->cases[j]);
             }
             free(g->cases);
@@ -38,9 +38,9 @@ Grille* Grille_initialiser(int n, int m) {
 }
 
 
-void Grille_desallouer(Grille* g) {
-    if (g != NULL) {
-        for (int i = 0; i < g->n; i++) {
+void Grille_desallouer(Grille* g){
+    if (g != NULL){
+        for (int i = 0; i < g->n; i++){
             free(g->cases[i]);
         }
         free(g->cases);
@@ -49,26 +49,26 @@ void Grille_desallouer(Grille* g) {
 }
 
 
-void Grille_vider(Grille* g) {
-    for (int i = 0; i < g->n; i++) {
-        for (int j = 0; j < g->m; j++) {
+void Grille_vider(Grille* g){
+    for (int i = 0; i < g->n; i++){
+        for (int j = 0; j < g->m; j++){
             g->cases[i][j] = VIDE;
         }
     }
 }
 
 
-void Grille_placer_element(Grille* g, int x, int y, ElementGrille e) {
-    if (x >= 0 && x < g->n && y >= 0 && y < g->m) {
+void Grille_placer_element(Grille* g, int x, int y, ElementGrille e){
+    if (x >= 0 && x < g->n && y >= 0 && y < g->m){
         g->cases[x][y] = e;
     }
 }
 
 
-void Grille_redessiner(const Grille* g) {
-    for (int i = 0; i < g->n; i++) {
-        for (int j = 0; j < g->m; j++) {
-            switch (g->cases[i][j]) {
+void Grille_redessiner(const Grille* g){
+    for (int i = 0; i < g->n; i++){
+        for (int j = 0; j < g->m; j++){
+            switch (g->cases[i][j]){
                 case VIDE:
                     printf("\33[42m  ");  // carré vide (vert)
                     break;
