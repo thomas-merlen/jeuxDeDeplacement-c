@@ -13,7 +13,8 @@ typedef enum {
     HAUT,
     BAS,
     GAUCHE,
-    DROITE
+    DROITE,
+    UNDO  // Nouvel événement pour le retour en arrière
 } EvenementPion;
 
 /*alloue un pion*/
@@ -28,5 +29,3 @@ void Pion_placer(Pion* pion, int x, int y);
 void Pion_deplacer(Pion* pion, EvenementPion e);
 
 #endif
-
-

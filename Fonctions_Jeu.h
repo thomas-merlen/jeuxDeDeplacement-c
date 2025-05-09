@@ -6,16 +6,21 @@
 
 enum evenement {RIEN, ECHAP, ROUGE, VERT, BLEU, JAUNE};
 
-/* Coeur du jeu contenant la boucle événementielle 
-   L'option 1 attend chaque pression d'une touche pour effectuer une action
-   L'option 2 répète l'action corresponde à la pression de la dernière touche 
-*/
+// Structure pour la liste chaînée des mouvements
+typedef struct Historique {
+    EvenementPion mouvement;
+    ElementGrille element_remplace; // Ce qui était à cette position avant le déplacement
+    int x;
+    int y;
+    struct Historique* suivant;
+} Historique;
+
+/* Coeur du jeu contenant la boucle événementielle */
 void Jeu_Partie_A(int option);
 
 /* Afficher un carré de couleur*/
 void afficher_couleur(enum evenement couleur, int compteur);
 
 int gerer_deplacement_pion(Grille *grille, Pion *pion, enum evenement direction);
-
 
 #endif

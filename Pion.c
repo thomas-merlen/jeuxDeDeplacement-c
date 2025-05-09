@@ -1,3 +1,4 @@
+// Pion.c
 #include <stdlib.h>
 #include <stdio.h>
 #include "Pion.h"
@@ -46,6 +47,9 @@ void Pion_deplacer(Pion* pion, EvenementPion e){
             break;
         case DROITE:
             pion->y += 1;
+            break;
+        case UNDO:
+            // Ne rien faire ici, géré dans annuler_mouvement()
             break;
         default:
             break;
