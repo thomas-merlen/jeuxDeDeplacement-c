@@ -14,3 +14,11 @@ Grille_desallouer fonctionne
 Grille_vider fonctionne 
 
 Grille.c done
+
+9/5/2025 
+
+Pion.c done
+
+Fonction_Jeu.c done 
+
+PARTIE A DONE !!!!
