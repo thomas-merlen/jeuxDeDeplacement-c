@@ -1,5 +1,7 @@
 #include<ncurses.h>
 #include "Fonctions_Jeu.h"
+#include "Pion.h"
+#include "Grille.h"
 
 
 void afficher_couleur(enum evenement couleur, int compteur){
@@ -84,7 +86,7 @@ void Jeu_Partie_A(int option) {
         if ((ch != -1) || ((ch == -1) && (option == 2))) {
             if (option == 1) test_touche = ch;
             else test_touche = ch_dern;
-
+            
             switch(test_touche) {
                 case KEY_UP:
                     res = HAUT;
@@ -98,18 +100,19 @@ void Jeu_Partie_A(int option) {
                 case KEY_RIGHT:
                     res = DROITE;
                     break;
-                case 27:  /* Code de la touche ESC-Echap */
+                case 27:  // ESC
                     res = ECHAP;
                     break;
                 default:
+                    res = AUCUN;  // AUCUN doit être défini dans Pion.h
                     break;
             }
-
             if (res != ECHAP && res != AUCUN) {
                 /* Effacer l'ancienne position du pion */
                 Grille_placer_element(grille, pion->x, pion->y, VIDE);
                 
                 /* Déplacer le pion */
+                
                 Pion_deplacer(pion, res);
                 
                 /* Vérifier les collisions et mettre à jour la position si nécessaire */

@@ -9,7 +9,7 @@ typedef struct {
 } Pion;
 
 typedef enum {
-    AUCUN,
+    AUCUN=10,
     HAUT,
     BAS,
     GAUCHE,
