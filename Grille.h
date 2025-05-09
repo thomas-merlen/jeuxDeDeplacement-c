@@ -9,7 +9,8 @@ typedef enum {
     VIDE,   /*case vide*/
     MUR,    
     PION,   /*joueur*/
-    PIEGE   
+    PIEGE,
+    BUT
 } ElementGrille;
 
 /*grille du jeu*/
@@ -33,5 +34,7 @@ void Grille_redessiner(const Grille* g);
 
 /*placer un element sur la grille*/
 void Grille_placer_element(Grille* g, int x, int y, ElementGrille e);
+
+Grille* Grille_charger_fichier(const char* nom_fichier, int* pion_x, int* pion_y);
 
 #endif

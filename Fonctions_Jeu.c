@@ -1,136 +1,149 @@
-#include <ncurses.h>
-#include <stdlib.h>
-#include <time.h>
+#include<ncurses.h>
 #include "Fonctions_Jeu.h"
-#include "Grille.h"
+
 
 void afficher_couleur(enum evenement couleur, int compteur){
-    printf("\33[2J"); /* Efface tout l'écran */
-    printf("\33[H");  /* Deplace le curseur en position (0,0) */ 
-    
-    switch (couleur){
-        case RIEN:
-            printf("%s", "\33[42m  ");  /* Affiche un carré vert (VIDE) */
-            break;      
-        case VERT:
-            printf("%s", "\33[42m  ");  /* Affiche un carré vert */
-            break;
-        case ROUGE:
-            printf("%s", "\33[41m  ");  /* Affiche un carré rouge */
-            break;
-        case BLEU:
-            printf("%s", "\33[44m  ");  /* Affiche un carré bleu */
-            break;
-        case JAUNE:
-            printf("%s", "\33[43m  ");  /* Affiche un carré jaune */
-            break;   
-        default:
-            printf("%s", "\33[42m  ");  /* Affiche un carré vert par défaut */
-            break;               
-    }  
 
-    printf("\033[00m"); /* Réinitialise les couleurs */
-    printf(" %d\n", compteur);
-    printf("\33[1E");      
+   printf("\33[2J"); /* Efface tout l'ecran */
+   printf("\33[H");  /* Deplace le curseur en position (0,0) */ 
+   
+   switch (couleur){
+      case RIEN:
+         printf("%s", "\33[42m  ");  /* Affiche un carré noir */
+         break;      
+      case VERT:
+         printf("%s", "\33[42m  ");  /* Affiche un carré vert */
+         break;
+      case ROUGE:
+         printf("%s", "\33[41m  ");  /* Affiche un carré rouge */
+         break;
+      case BLEU:
+         printf("%s", "\33[44m  ");  /* Affiche un carré bleu */
+         break;
+      case JAUNE:
+         printf("%s", "\33[43m  ");  /* Affiche un carré jaune */
+         break;   
+      default:
+         printf("%s", "\33[42m  ");  /* Affiche un carré noir */
+         break;               
+   }  
+
+   printf("\033[00m"); /* Declare le fond noir pour la suite */
+   printf(" %d\n",compteur);
+   printf("\33[1E");      
 }
-
-void Jeu_Partie_A(int option){
-    enum evenement res;
-    int ch, ch_dern = -1, test_touche, compteur;
+  
+void Jeu_Partie_A(int option) {
+    enum evenement res; /* Retour des évènements */
+    int ch;          /* Récupération de la saisie clavier, valeur # pour fin de boucle */
+    int ch_dern = -1;  /* Sauvegarde de la dernière saisie */
+    int test_touche; /* Vaut ch ou ch_dern suivant l'option du jeu */
+    int compteur; /* Compteur affiché à l'écran */
+    int pion_x, pion_y;
     
-    /* ===== TEST DE LA GRILLE ===== */
-    Grille* grille_test = Grille_initialiser(5, 5);
-    if (grille_test == NULL){
-        printf("Erreur: impossible d'initialiser la grille\n");
+    /* Charger la grille depuis le fichier */
+    Grille* grille = Grille_charger_fichier("grille.txt", &pion_x, &pion_y);
+    if (grille == NULL) {
+        printf("Erreur lors du chargement de la grille\n");
         return;
     }
-
-    // Placement d'éléments de test
-    Grille_placer_element(grille_test, 0, 0, MUR);    // Coin supérieur gauche (rouge)
-    Grille_placer_element(grille_test, 2, 2, PION);   // Centre (bleu)
-    Grille_placer_element(grille_test, 4, 4, PIEGE);  // Coin inférieur droit (jaune)
     
-    printf("\33[2J\33[H");  // Efface l'écran et place le curseur en haut
-    printf("=== TEST DE LA GRILLE ===\n");
-    Grille_redessiner(grille_test);
-    printf("\033[00m");     // Réinitialise les couleurs
-    printf("\nAppuyez sur une touche pour commencer le jeu...\n");
-    fflush(stdout);
-    
-    while (getch() == -1);  // Attente d'une touche
-    Grille_desallouer(grille_test);
-    /* ===== FIN DU TEST ===== */
+    /* Créer et placer le pion */
+    Pion* pion = Pion_allouer();
+    Pion_placer(pion, pion_x, pion_y);
+    Grille_placer_element(grille, pion->x, pion->y, PION);
 
-    /* Initialisation de ncurses */
+    /* Initialisation de ncurses et du clavier */
     initscr();
     raw();
     keypad(stdscr, TRUE);
     noecho();
-    halfdelay(1);
+    halfdelay(1);  /* Temps d'exécution max de getch à 1/10ème de seconde */
 
-    ch_dern = -2;
+    ch_dern = -2;    /* Pour permettre le premier affichage */
     compteur = 0;
-    
-    do{
-        compteur++;
-        ch = getch();
 
-        if (ch_dern == -2){
-            afficher_couleur(ROUGE, compteur);
+    do {
+        compteur++;
+        ch = getch(); /* Si aucune touche utilisée, getch renvoie -1 */
+
+        if (ch_dern == -2) {  /* Affichage une première fois au début */
+            printf("\33[2J"); /* Efface tout l'écran */
+            printf("\33[H");  /* Déplace le curseur en position (0,0) */
+            Grille_redessiner(grille);
             printf("Pour jouer: utiliser les flèches (ESC pour Sortir)\33[1E\33[1E");
-            fflush(stdout);  
-            ch_dern = -1; 
+            fflush(stdout);
+            ch_dern = -1;
         }
 
-        if (ch != -1){
-            if (ch != ch_dern) compteur = 1;
+        if (ch != -1) {
+            if (ch != ch_dern) compteur = 1; /* Remise du compteur à 1 à chaque pression d'une nouvelle touche */
             ch_dern = ch;
         }
-            
-        if ((ch != -1) || ((ch == -1) && (option == 2))){
+
+        if ((ch != -1) || ((ch == -1) && (option == 2))) {
             if (option == 1) test_touche = ch;
             else test_touche = ch_dern;
-                
-            switch(test_touche){  
+
+            switch(test_touche) {
                 case KEY_UP:
-                    printf("Up Arrow\33[1E");          
-                    res = ROUGE;
+                    res = HAUT;
                     break;
                 case KEY_DOWN:
-                    printf("Down Arrow\33[1E");       
-                    res = VERT;
+                    res = BAS;
                     break;
                 case KEY_LEFT:
-                    printf("Left Arrow\33[1E");
-                    res = BLEU;
+                    res = GAUCHE;
                     break;
                 case KEY_RIGHT:
-                    printf("Right Arrow\33[1E");
-                    res = JAUNE;
+                    res = DROITE;
                     break;
-                case 27:
+                case 27:  /* Code de la touche ESC-Echap */
                     res = ECHAP;
-                    printf("ESC\33[1E");
                     break;
                 default:
-                    printf("%c\33[1E", test_touche);
                     break;
             }
-          
-            if (res != ECHAP){
-                afficher_couleur(res, compteur);
-                printf("Pour changer la couleur du carré: utiliser les flèches (ESC pour Sortir)\33[1E\33[1E");
+
+            if (res != ECHAP && res != AUCUN) {
+                /* Effacer l'ancienne position du pion */
+                Grille_placer_element(grille, pion->x, pion->y, VIDE);
+                
+                /* Déplacer le pion */
+                Pion_deplacer(pion, res);
+                
+                /* Vérifier les collisions et mettre à jour la position si nécessaire */
+                if (pion->x < 0 || pion->x >= grille->n || pion->y < 0 || pion->y >= grille->m || 
+                    grille->cases[pion->x][pion->y] == MUR) {
+                    /* Revenir à l'ancienne position si collision avec un mur ou hors limites */
+                    pion->x = pion->x_old;
+                    pion->y = pion->y_old;
+                }
+                
+                /* Placer le pion à sa nouvelle position */
+                Grille_placer_element(grille, pion->x, pion->y, PION);
+                
+                /* Effacer l'écran et redessiner la grille */
+                printf("\33[2J");
+                printf("\33[H");
+                Grille_redessiner(grille);
+                printf("Compteur: %d\n", compteur);
+                printf("Utilisez les flèches pour déplacer le pion (ESC pour quitter)\33[1E\33[1E");
                 fflush(stdout);
             }
         }
     } while (res != ECHAP);
 
-    printf("\n\nAu revoir !\n");        
-    printf("\33[1EAppuyez sur une touche pour sortir\33[1E\n");     
+    /* Nettoyage */
+    Grille_desallouer(grille);
+    Pion_desallouer(pion);
     
-    do{
+    printf("\n\nAu revoir !\n");
+    printf("\33[1EAppuyez sur une touche pour sortir\33[1E\n");
+
+    do {
         ch = getch();
     } while(ch == -1);
-    
-    endwin();
+
+    endwin(); /* Doit obligatoirement être mis en fin de programme pour remettre le terminal en état */
 }

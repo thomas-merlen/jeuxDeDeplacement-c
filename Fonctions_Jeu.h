@@ -1,6 +1,9 @@
 #ifndef _FONCTIONS_JEU_
 #define _FONCTIONS_JEU_
 
+#include "Grille.h"
+#include "Pion.h"
+
 enum evenement {RIEN, ECHAP, ROUGE, VERT, BLEU, JAUNE};
 
 /* Coeur du jeu contenant la boucle événementielle 
@@ -11,5 +14,8 @@ void Jeu_Partie_A(int option);
 
 /* Afficher un carré de couleur*/
 void afficher_couleur(enum evenement couleur, int compteur);
+
+int gerer_deplacement_pion(Grille *grille, Pion *pion, enum evenement direction);
+
 
 #endif
