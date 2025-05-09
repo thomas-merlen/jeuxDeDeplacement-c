@@ -86,10 +86,10 @@ void Jeu_Partie_A(int option) {
         if ((ch != -1) || ((ch == -1) && (option == 2))) {
             if (option == 1) test_touche = ch;
             else test_touche = ch_dern;
-            
+
             switch(test_touche) {
                 case KEY_UP:
-                    res = HAUT;
+                    res = HAUT; 
                     break;
                 case KEY_DOWN:
                     res = BAS;
@@ -107,12 +107,12 @@ void Jeu_Partie_A(int option) {
                     res = AUCUN;  // AUCUN doit être défini dans Pion.h
                     break;
             }
+
             if (res != ECHAP && res != AUCUN) {
                 /* Effacer l'ancienne position du pion */
                 Grille_placer_element(grille, pion->x, pion->y, VIDE);
                 
                 /* Déplacer le pion */
-                
                 Pion_deplacer(pion, res);
                 
                 /* Vérifier les collisions et mettre à jour la position si nécessaire */
@@ -122,7 +122,18 @@ void Jeu_Partie_A(int option) {
                     pion->x = pion->x_old;
                     pion->y = pion->y_old;
                 }
-                
+
+                /* Vérifier si le pion atteint un piège */
+                if (grille->cases[pion->x][pion->y] == PIEGE) {
+                    fflush(stdout);
+                    res = ECHAP; // Force la sortie de la boucle
+                }
+
+                if (grille->cases[pion->x][pion->y] == BUT){
+                    fflush(stdout);
+                    res = ECHAP; /* fin du jeu */
+                }
+
                 /* Placer le pion à sa nouvelle position */
                 Grille_placer_element(grille, pion->x, pion->y, PION);
                 
