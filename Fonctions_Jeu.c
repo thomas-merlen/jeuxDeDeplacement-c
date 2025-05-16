@@ -117,7 +117,7 @@ void Jeu_Partie_A(int option){
                     break;
             }
 
-            if (res == UNDO){
+            if ((int)res == (int)UNDO){
                 if (annuler_mouvement(&historique, pion, grille)){
                     // Redessiner après l'annulation
                     printf("\33[2J");
@@ -128,7 +128,7 @@ void Jeu_Partie_A(int option){
                     fflush(stdout);
                 }
             }
-            else if (res != ECHAP && res != AUCUN){
+            else if ((int)res != (int)ECHAP && (int)res != (int)AUCUN){
                 // Sauvegarder l'élément actuel avant de déplacer le pion
                 ElementGrille element_avant = grille->cases[pion->x][pion->y];
                 
