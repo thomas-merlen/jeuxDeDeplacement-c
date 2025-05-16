@@ -5,9 +5,6 @@
 #include "Pion.h"
 #include "Grille.h"
 
-void ajouter_historique(Historique** tete, EvenementPion mouvement, ElementGrille element, int x, int y);
-int annuler_mouvement(Historique** tete, Pion* pion, Grille* grille);
-
 /* fonction principale */
 void Jeu_Partie_A(int option){
     enum evenement res;      /* action du joueur */
