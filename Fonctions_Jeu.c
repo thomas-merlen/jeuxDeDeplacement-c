@@ -6,7 +6,7 @@
 #include "Grille.h"
 
 // Fonction pour ajouter un mouvement à l'historique
-void ajouter_historique(Historique** tete, EvenementPion mouvement, ElementGrille element, int x, int y) {
+void ajouter_historique(Historique** tete, EvenementPion mouvement, ElementGrille element, int x, int y){
     Historique* nouveau = malloc(sizeof(Historique));
     if (nouveau == NULL) return;
     
@@ -19,7 +19,7 @@ void ajouter_historique(Historique** tete, EvenementPion mouvement, ElementGrill
 }
 
 // Fonction pour annuler le dernier mouvement
-int annuler_mouvement(Historique** tete, Pion* pion, Grille* grille) {
+int annuler_mouvement(Historique** tete, Pion* pion, Grille* grille){
     if (*tete == NULL) return 0; // Rien à annuler
     
     Historique* a_supprimer = *tete;
@@ -42,7 +42,7 @@ int annuler_mouvement(Historique** tete, Pion* pion, Grille* grille) {
 }
 
 
-void Jeu_Partie_A(int option) {
+void Jeu_Partie_A(int option){
     enum evenement res;
     int ch;
     int ch_dern = -1;
@@ -52,7 +52,7 @@ void Jeu_Partie_A(int option) {
     Historique* historique = NULL; // Initialisation de l'historique
     
     Grille* grille = Grille_charger_fichier("grille.txt", &pion_x, &pion_y);
-    if (grille == NULL) {
+    if (grille == NULL){
         printf("Erreur lors du chargement de la grille\n");
         return;
     }
@@ -70,11 +70,11 @@ void Jeu_Partie_A(int option) {
     ch_dern = -2;
     compteur = 0;
 
-    do {
+    do{
         compteur++;
         ch = getch();
 
-        if (ch_dern == -2) {
+        if (ch_dern == -2){
             printf("\33[2J");
             printf("\33[H");
             Grille_redessiner(grille);
@@ -83,16 +83,16 @@ void Jeu_Partie_A(int option) {
             ch_dern = -1;
         }
 
-        if (ch != -1) {
+        if (ch != -1){
             if (ch != ch_dern) compteur = 1;
             ch_dern = ch;
         }
 
-        if ((ch != -1) || ((ch == -1) && (option == 2))) {
+        if ((ch != -1) || ((ch == -1) && (option == 2))){
             if (option == 1) test_touche = ch;
             else test_touche = ch_dern;
 
-            switch(test_touche) {
+            switch(test_touche){
                 case KEY_UP:
                     res = HAUT; 
                     break;
@@ -117,8 +117,8 @@ void Jeu_Partie_A(int option) {
                     break;
             }
 
-            if (res == UNDO) {
-                if (annuler_mouvement(&historique, pion, grille)) {
+            if (res == UNDO){
+                if (annuler_mouvement(&historique, pion, grille)){
                     // Redessiner après l'annulation
                     printf("\33[2J");
                     printf("\33[H");
@@ -128,7 +128,7 @@ void Jeu_Partie_A(int option) {
                     fflush(stdout);
                 }
             }
-            else if (res != ECHAP && res != AUCUN) {
+            else if (res != ECHAP && res != AUCUN){
                 // Sauvegarder l'élément actuel avant de déplacer le pion
                 ElementGrille element_avant = grille->cases[pion->x][pion->y];
                 
@@ -140,19 +140,19 @@ void Jeu_Partie_A(int option) {
                 
                 // Vérifier les collisions
                 if (pion->x < 0 || pion->x >= grille->n || pion->y < 0 || pion->y >= grille->m || 
-                    grille->cases[pion->x][pion->y] == MUR) {
+                    grille->cases[pion->x][pion->y] == MUR){
                     // Revenir à l'ancienne position si collision
                     pion->x = pion->x_old;
                     pion->y = pion->y_old;
                 }
-                else {
+                else{
                     // Ajouter le mouvement à l'historique seulement si valide
                     ajouter_historique(&historique, res, element_avant, pion->x_old, pion->y_old);
                 }
 
                 // Vérifier les conditions de fin de jeu
                 if (grille->cases[pion->x][pion->y] == PIEGE || 
-                    grille->cases[pion->x][pion->y] == BUT) {
+                    grille->cases[pion->x][pion->y] == BUT){
                     fflush(stdout);
                     res = ECHAP;
                 }
@@ -172,7 +172,7 @@ void Jeu_Partie_A(int option) {
     } while (res != ECHAP);
 
     // Nettoyage de l'historique
-    while (historique != NULL) {
+    while (historique != NULL){
         Historique* suivant = historique->suivant;
         free(historique);
         historique = suivant;
@@ -184,7 +184,7 @@ void Jeu_Partie_A(int option) {
     printf("\n\nAu revoir !\n");
     printf("\33[1EAppuyez sur une touche pour sortir\33[1E\n");
 
-    do {
+    do{
         ch = getch();
     } while(ch == -1);
 

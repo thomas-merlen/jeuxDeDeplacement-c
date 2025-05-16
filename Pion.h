@@ -1,14 +1,14 @@
 #ifndef PION_H
 #define PION_H
 
-typedef struct {
+typedef struct{
     int x;       /*position en x*/
     int y;       /*position en y*/
     int x_old;   /*ancienne position en x*/
     int y_old;   /*ancienne position en y*/
 } Pion;
 
-typedef enum {
+typedef enum{
     AUCUN=10,
     HAUT,
     BAS,

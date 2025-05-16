@@ -5,7 +5,7 @@
 #define MAX_N 100
 #define MAX_M 100
 
-typedef enum {
+typedef enum{
     VIDE,   /*case vide*/
     MUR,    
     PION,   /*joueur*/
@@ -14,7 +14,7 @@ typedef enum {
 } ElementGrille;
 
 /*grille du jeu*/
-typedef struct {
+typedef struct{
     int n; /*lignes*/
     int m; /*colonnes*/
     ElementGrille** cases;

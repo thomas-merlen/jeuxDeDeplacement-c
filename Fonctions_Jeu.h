@@ -4,10 +4,10 @@
 #include "Grille.h"
 #include "Pion.h"
 
-enum evenement {RIEN, ECHAP, ROUGE, VERT, BLEU, JAUNE};
+enum evenement{RIEN, ECHAP, ROUGE, VERT, BLEU, JAUNE};
 
 // Structure pour la liste chaînée des mouvements
-typedef struct Historique {
+typedef struct Historique{
     EvenementPion mouvement;
     ElementGrille element_remplace; // Ce qui était à cette position avant le déplacement
     int x;

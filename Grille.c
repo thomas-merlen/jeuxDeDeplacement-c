@@ -65,10 +65,10 @@ void Grille_placer_element(Grille* g, int x, int y, ElementGrille e){
 }
 
 
-void Grille_redessiner(const Grille* g) {
-    for (int i = 0; i < g->n; i++) {
-        for (int j = 0; j < g->m; j++) {
-            switch (g->cases[i][j]) {
+void Grille_redessiner(const Grille* g){
+    for (int i = 0; i < g->n; i++){
+        for (int j = 0; j < g->m; j++){
+            switch (g->cases[i][j]){
                 case VIDE:
                     printf("\33[42m  ");  // carré vide (vert)
                     break;
@@ -93,9 +93,9 @@ void Grille_redessiner(const Grille* g) {
     printf("\033[00m"); // Réinitialiser les couleurs à la fin
 }
 
-Grille* Grille_charger_fichier(const char* nom_fichier, int* pion_x, int* pion_y) {
+Grille* Grille_charger_fichier(const char* nom_fichier, int* pion_x, int* pion_y){
     FILE* f = fopen(nom_fichier, "r");
-    if (!f) {
+    if (!f){
         perror("Erreur ouverture fichier");
         return NULL;
     }
@@ -104,16 +104,16 @@ Grille* Grille_charger_fichier(const char* nom_fichier, int* pion_x, int* pion_y
     fscanf(f, "%d %d\n", &n, &m); // lecture dimensions
 
     Grille* g = Grille_initialiser(n, m);
-    if (!g) {
+    if (!g){
         fclose(f);
         return NULL;
     }
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++){
             char c = fgetc(f);
 
-            switch (c) {
+            switch (c){
                 case 'M': g->cases[i][j] = MUR; break;
                 case ' ': g->cases[i][j] = VIDE; break;
                 case 'Q': g->cases[i][j] = PIEGE; break;
